@@ -42,11 +42,11 @@ ORDER BY elevator_id, end_date DESC),
 
 relapses AS(SELECT id, name, end_date, lag, 
 			CASE 
-           	WHEN (lag - end_date) < 90 THEN 1
-            ELSE 0
+			    WHEN (lag - end_date) < 90 THEN 1
+			    ELSE 0
 			END relapse
-      			FROM elevators
-      				JOIN dates ON elevators.id = dates.elevator_id)
+      		FROM elevators
+      			JOIN dates ON elevators.id = dates.elevator_id)
 SELECT name, SUM(relapse) 
 	FROM relapses
 GROUP BY name
