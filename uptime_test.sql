@@ -5,13 +5,19 @@ SELECT name, COUNT(breakdowns.id)  as total_breakdowns
 GROUP BY name
 ORDER BY 2 DESC
 LIMIT 3;
--- Please note there are other elevators with total breakdowns = 5
--- So top 3 can be different
+-- Please note there are other elevators with total breakdowns = 5 (for rank 2 & 3)
 SELECT count(elevator_id) 
 	FROM (SELECT elevator_id, COUNT(*) 
           	FROM breakdowns
 		GROUP BY elevator_id
 		HAVING COUNT(*) = 5) AS break;
+-- So top 3 can be different, here the list of other possibilities for rank 2 and 3
+SELECT elevator_id, name
+	FROM (SELECT elevator_id, COUNT(*) 
+          	FROM breakdowns
+		GROUP BY elevator_id
+		HAVING COUNT(*) = 5) AS break
+      JOIN elevators ON break.elevator_id = elevators.id;
 
 
 -- 2. for each elevator, when was the last visit done?
